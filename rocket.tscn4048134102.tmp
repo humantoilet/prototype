@@ -1,0 +1,101 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1yaift342c2k"]
+
+[ext_resource type="Script" uid="uid://b06pyviuiq0f8" path="res://rocket.gd" id="1_wltir"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_fj03e"]
+points = PackedVector2Array(-2, -4, 2, -4, 1, 2, -1, 2)
+
+[node name="Rocket" type="RigidBody2D"]
+mass = 50.0
+gravity_scale = 0.02
+script = ExtResource("1_wltir")
+max_main_thrust = 3500.0
+min_main_thrust = 0.0
+side_thruster_force = 125.0
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+scale = Vector2(2, 2)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-6, 3.5, -6, 3, -6.5, 2.5, -6.5, 0.5, -6, 0, -5, -5.5, 0, -8, 5, -5.5, 6, 0, 6.5, 0.5, 6.5, 2.5, 6, 3, 6, 3.5, 2.5, 3.5, 2, 4, -2, 4, -2.5, 3.5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(2, 2)
+polygon = PackedVector2Array(-6, 3.5, 6, 3.5, 6, 0, 5, -5.5, 0, -8, -5, -5.5, -6, 0)
+
+[node name="Flame" type="Polygon2D" parent="."]
+position = Vector2(0, 8)
+rotation = 3.14159
+color = Color(1, 0.305882, 0, 1)
+polygon = PackedVector2Array(-4, -1.04904e-05, -2.87203, -2.25592, 2.02815e-05, -8, 4, 1.04904e-05)
+
+[node name="LeftThrusterFlame" type="Polygon2D" parent="."]
+position = Vector2(-5, 3)
+color = Color(1, 0.305882, 0, 1)
+polygon = PackedVector2Array(-8, -2, -12, 0, -8, 2)
+
+[node name="RightThrusterFlame" type="Polygon2D" parent="."]
+position = Vector2(21, 2)
+color = Color(1, 0.305882, 0, 1)
+polygon = PackedVector2Array(-8, -1, -4, 1, -8, 3)
+
+[node name="LandingLeg" type="RigidBody2D" parent="."]
+position = Vector2(-9, 4)
+mass = 5.0
+gravity_scale = 0.02
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LandingLeg"]
+position = Vector2(0, 6)
+shape = SubResource("ConvexPolygonShape2D_fj03e")
+
+[node name="Polygon2D" type="Polygon2D" parent="LandingLeg"]
+position = Vector2(-1, 6)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-1, -4, -0.648362, -4, 3, -4, 2, 2, 0, 2, 0, 2)
+
+[node name="GrooveJoint2D" type="GrooveJoint2D" parent="LandingLeg"]
+visible = false
+position = Vector2(0, 2)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+disable_collision = false
+length = 8.0
+initial_offset = 4.0
+
+[node name="PinJoint2D" type="PinJoint2D" parent="LandingLeg"]
+visible = false
+position = Vector2(0, 2)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+softness = 1.0
+
+[node name="LandingLeg2" type="RigidBody2D" parent="."]
+position = Vector2(9, 4)
+mass = 5.0
+gravity_scale = 0.02
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LandingLeg2"]
+position = Vector2(0, 6)
+shape = SubResource("ConvexPolygonShape2D_fj03e")
+
+[node name="Polygon2D" type="Polygon2D" parent="LandingLeg2"]
+position = Vector2(-1, 6)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-1, -4, 3, -4, 2, 2, 0, 2)
+
+[node name="GrooveJoint2D" type="GrooveJoint2D" parent="LandingLeg2"]
+visible = false
+position = Vector2(0, 2)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+disable_collision = false
+length = 8.0
+initial_offset = 4.0
+
+[node name="PinJoint2D" type="PinJoint2D" parent="LandingLeg2"]
+visible = false
+position = Vector2(0, 2)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+softness = 1.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

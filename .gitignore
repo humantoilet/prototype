@@ -1,0 +1,25 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Godot specific folders
+.import/
+.export/
+
+# Exported files
+*.exe
+*.apk
+*.zip
+*.pck
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Godot cache
+.cache/
+
+# User-specific editor settings
+.editor_settings-3.tres
+.editor_settings-4.tres

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://4yaitfeney5w"]
+
+[ext_resource type="PackedScene" uid="uid://c1yaift342c2k" path="res://rigid_body_2d.tscn" id="2_0e48y"]
+[ext_resource type="Script" uid="uid://bu6y74arbv4dt" path="res://static_body_2d.gd" id="2_epypp"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Rocket" parent="." instance=ExtResource("2_0e48y")]
+position = Vector2(470, 54)
+mass = 500.0
+gravity_scale = 0.05
+
+[node name="Ground" type="StaticBody2D" parent="."]
+position = Vector2(0, 224)
+script = ExtResource("2_epypp")
+
+[node name="Polygon2D" type="Polygon2D" parent="Ground"]
+position = Vector2(4, 22)
+color = Color(0, 0.112929, 0.13712, 1)
+polygon = PackedVector2Array(158, 113, 166, 88, 200, 64, 220, 71, 232, 111, 242, 124, 258, 137, 288, 150, 324, 170, 362, 191, 369, 152, 385, 164, 409, 188, 416, 79, 440, 3, 444.192, -55.6878, 436, -68, 486, -67, 477.602, -55.9746, 470, 4, 480, 16, 475, 48, 483, 159, 530, 179, 596, 248, 643, 344, 669, 344, 687, 351, 700, 361, 716, 382, 756, 388, 796, 372, 824, 376, 859, 376, 894, 373, 922, 384, 954, 382, 989, 390, 1022, 366, 1062, 335, 1068, 202, 1149, 185, 1151, 435, -3, 425, -4, 92, 74, 107, 135, 108)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground"]
+visible = false
+position = Vector2(4, 22)
+polygon = PackedVector2Array(158, 113, 166, 88, 200, 64, 220, 71, 232, 111, 242, 124, 258, 137, 288, 150, 324, 170, 362, 191, 369, 152, 385, 164, 409, 188, 416, 79, 440, 3, 444.192, -55.6878, 436, -68, 486, -67, 477.602, -55.9746, 470, 4, 480, 16, 475, 48, 483, 159, 530, 179, 596, 248, 643, 344, 669, 344, 687, 351, 700, 361, 716, 382, 756, 388, 796, 372, 824, 376, 859, 376, 894, 373, 922, 384, 954, 382, 989, 390, 1022, 366, 1062, 335, 1068, 202, 1149, 185, 1151, 435, -3, 425, -4, 92, 74, 107, 135, 108)

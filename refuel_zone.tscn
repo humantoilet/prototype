@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck1vb28q5a6l1"]
+
+[ext_resource type="Script" uid="uid://c3ngoiahvjs0d" path="res://refuel_zone.gd" id="1_ojfe6"]
+
+[node name="RefuelZone" type="Area2D"]
+script = ExtResource("1_ojfe6")
+refuel_rate = 15.0
+stationary_speed_threshold = 1.0
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2(-94, -70)
+color = Color(0.379149, 0.699916, 0.668629, 1)
+polygon = PackedVector2Array(60, 80, 129, 80, 129, 86, 60, 86)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+position = Vector2(-1600, -274)
+polygon = PackedVector2Array(1566, 273, 1635, 273, 1635, 290, 1566, 290)
+
+[node name="RefuelTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="RefuelTimer" to="." method="_on_refuel_timer_timeout"]

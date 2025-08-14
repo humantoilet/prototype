@@ -1,0 +1,99 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1yaift342c2k"]
+
+[ext_resource type="Script" uid="uid://b06pyviuiq0f8" path="res://rocket.gd" id="1_wltir"]
+
+[node name="Rocket" type="RigidBody2D"]
+mass = 100.0
+gravity_scale = 0.025
+center_of_mass_mode = 1
+center_of_mass = Vector2(0, 10)
+script = ExtResource("1_wltir")
+max_main_thrust = 2500.0
+main_thruster_offset = Vector2(0, 10)
+side_thruster_offset_y = 25.0
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+scale = Vector2(2, 2)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-6, 3.5, -6, 3, -6.5, 2.5, -6.5, 0.5, -6, 0, -5.5, -5.5, -4, -5.5, 0, -6, 4, -5.5, 5.5, -5.5, 6, 0, 6.5, 0.5, 6.5, 2.5, 6, 3, 6, 3.5, 2.5, 3.5, 2, 4.5, -2, 4.5, -2.5, 3.5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(2, 2)
+polygon = PackedVector2Array(-5.5, 3, 5.5, 3, 5.5, 0, 5, -5, 3, -5, 0, -5, -3, -5, -5, -5, -5.5, 0)
+
+[node name="Flame" type="Polygon2D" parent="."]
+position = Vector2(0, 9)
+rotation = 3.14159
+polygon = PackedVector2Array(-4, -1.04904e-05, -2.87203, -2.25592, 2.02815e-05, -8, 4, 1.04904e-05)
+
+[node name="LeftThrusterFlame" type="Polygon2D" parent="."]
+position = Vector2(-5, 3)
+polygon = PackedVector2Array(-8, -2, -12, 0, -8, 2)
+
+[node name="RightThrusterFlame" type="Polygon2D" parent="."]
+position = Vector2(21, 2)
+polygon = PackedVector2Array(-8, -1, -4, 1, -8, 3)
+
+[node name="LandingLeg" type="RigidBody2D" parent="."]
+position = Vector2(11, 5)
+mass = 5.0
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 8
+
+[node name="Polygon2D" type="Polygon2D" parent="LandingLeg"]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-2, 1, 0, 1, 1, 5, 2, 7, -2, 7, -1, 5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingLeg"]
+position = Vector2(-1, 0)
+polygon = PackedVector2Array(1, 1, -1, 1, 0, 5, -1, 7, 3, 7, 2, 5)
+
+[node name="DampedSpringJoint2D" type="GrooveJoint2D" parent="LandingLeg"]
+visible = false
+position = Vector2(-1, 2)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+length = 3.0
+initial_offset = 2.0
+
+[node name="PinJoint2D" type="PinJoint2D" parent="LandingLeg"]
+visible = false
+position = Vector2(-1, 2)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+softness = 0.02
+
+[node name="LandingLeg2" type="RigidBody2D" parent="."]
+position = Vector2(-10, 5)
+mass = 5.0
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 8
+
+[node name="Polygon2D" type="Polygon2D" parent="LandingLeg2"]
+position = Vector2(1, 0)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-2, 1, 0, 1, -1, 5, 0, 7, -4, 7, -3, 5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingLeg2"]
+polygon = PackedVector2Array(1, 1, -1, 1, -2, 5, -3, 7, 1, 7, 0, 5)
+
+[node name="DampedSpringJoint2D" type="GrooveJoint2D" parent="LandingLeg2"]
+visible = false
+position = Vector2(-1, 2)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+length = 3.0
+initial_offset = 2.0
+
+[node name="PinJoint2D" type="PinJoint2D" parent="LandingLeg2"]
+visible = false
+position = Vector2(-1, 2)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+softness = 0.02
+angular_limit_lower = -0.549779
+angular_limit_upper = 0.514872
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
