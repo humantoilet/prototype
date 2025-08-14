@@ -7,14 +7,15 @@
 [ext_resource type="PackedScene" uid="uid://ck1vb28q5a6l1" path="res://refuel_zone.tscn" id="5_lquwl"]
 
 [node name="Main" type="Node2D"]
-position = Vector2(-399, -31)
+position = Vector2(-399, -32)
 script = ExtResource("1_lquwl")
 
 [node name="Rocket" parent="." groups=["player"] instance=ExtResource("1_0xm2m")]
-position = Vector2(1904, 615)
+position = Vector2(1902, 616)
 center_of_mass = Vector2(0, 6)
 contact_monitor = true
 max_contacts_reported = 8
+max_fuel = 1000.0
 main_thrust_fuel_consumption = 10.0
 side_thruster_fuel_consumption = 5.0
 max_main_thrust = 40000.0
@@ -28,7 +29,7 @@ visible = false
 zoom = Vector2(2, 2)
 
 [node name="Ground" type="StaticBody2D" parent="." groups=["ground"]]
-position = Vector2(-2, 231)
+position = Vector2(-3, 230)
 script = ExtResource("2_h2yge")
 
 [node name="Polygon2D" type="Polygon2D" parent="Ground" groups=["ground"]]

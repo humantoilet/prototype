@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1yaift342c2k"]
+[gd_scene load_steps=5 format=3 uid="uid://c1yaift342c2k"]
 
 [ext_resource type="Script" uid="uid://b06pyviuiq0f8" path="res://rocket.gd" id="1_wltir"]
+[ext_resource type="Script" uid="uid://d2h8qr57sb0l8" path="res://landing_leg.gd" id="2_5gt1y"]
+[ext_resource type="Script" uid="uid://u3ml00h7um2g" path="res://flame.gd" id="2_tpb7v"]
+[ext_resource type="Script" uid="uid://cp0khh1e53ist" path="res://landing_leg_2.gd" id="3_r2l15"]
 
 [node name="Rocket" type="RigidBody2D"]
 mass = 100.0
@@ -25,6 +28,10 @@ polygon = PackedVector2Array(-5.5, 3, 5.5, 3, 5.5, 0, 5, -5, 3, -5, 0, -5, -3, -
 position = Vector2(0, 9)
 rotation = 3.14159
 polygon = PackedVector2Array(-4, -1.04904e-05, -2.87203, -2.25592, 2.02815e-05, -8, 4, 1.04904e-05)
+script = ExtResource("2_tpb7v")
+ground_distance_threshold = 500.0
+smoke_particles_node_path = NodePath("../CPUParticles2D")
+raycast_node_path = NodePath("../RayCast2D")
 
 [node name="LeftThrusterFlame" type="Polygon2D" parent="."]
 position = Vector2(-5, 3)
@@ -34,12 +41,18 @@ polygon = PackedVector2Array(-8, -2, -12, 0, -8, 2)
 position = Vector2(21, 2)
 polygon = PackedVector2Array(-8, -1, -4, 1, -8, 3)
 
-[node name="LandingLeg" type="RigidBody2D" parent="."]
+[node name="LandingLeg" type="RigidBody2D" parent="." node_paths=PackedStringArray("pin_joint", "groove_joint")]
 position = Vector2(11, 5)
 mass = 5.0
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 8
+script = ExtResource("2_5gt1y")
+break_velocity = 10.0
+detach_force = 50.0
+pin_joint = NodePath("PinJoint2D")
+groove_joint = NodePath("DampedSpringJoint2D")
+rocket_node_path = NodePath("..")
 
 [node name="Polygon2D" type="Polygon2D" parent="LandingLeg"]
 color = Color(0, 0, 0, 1)
@@ -64,12 +77,18 @@ node_a = NodePath("../..")
 node_b = NodePath("..")
 softness = 0.02
 
-[node name="LandingLeg2" type="RigidBody2D" parent="."]
+[node name="LandingLeg2" type="RigidBody2D" parent="." node_paths=PackedStringArray("pin_joint", "groove_joint")]
 position = Vector2(-10, 5)
 mass = 5.0
 gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 8
+script = ExtResource("3_r2l15")
+break_velocity = 10.0
+detach_force = 50.0
+pin_joint = NodePath("PinJoint2D")
+groove_joint = NodePath("DampedSpringJoint2D")
+rocket_node_path = NodePath("..")
 
 [node name="Polygon2D" type="Polygon2D" parent="LandingLeg2"]
 position = Vector2(1, 0)
@@ -95,5 +114,27 @@ node_b = NodePath("..")
 softness = 0.02
 angular_limit_lower = -0.549779
 angular_limit_upper = 0.514872
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, 6)
+rotation = 3.13369
+target_position = Vector2(0.118573, -14.9995)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, 21)
+scale = Vector2(0.72, 0.5965)
+amount = 100
+lifetime = 0.2
+speed_scale = 0.5
+randomness = 0.65
+lifetime_randomness = 0.48
+emission_shape = 1
+emission_sphere_radius = 10.1
+gravity = Vector2(0, -980)
+orbit_velocity_min = -0.25
+orbit_velocity_max = 0.25
+scale_amount_min = 0.1
+scale_amount_max = 2.0
+color = Color(1, 1, 1, 0.478431)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
