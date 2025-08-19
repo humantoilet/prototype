@@ -146,3 +146,5 @@ func refuel(amount: float):
 	current_fuel += amount
 	current_fuel = min(current_fuel, max_fuel)
 	print("Tankolás! Új üzemanyagszint: ", current_fuel)
+	
+	

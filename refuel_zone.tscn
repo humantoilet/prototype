@@ -9,7 +9,7 @@ stationary_speed_threshold = 1.0
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-94, -70)
-color = Color(0.379149, 0.699916, 0.668629, 1)
+color = Color(0.13135, 0.230441, 0.335013, 1)
 polygon = PackedVector2Array(60, 80, 129, 80, 129, 86, 60, 86)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
