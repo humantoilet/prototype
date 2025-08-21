@@ -3,11 +3,11 @@ extends RigidBody2D
 # --- EXPORT VÁLTOZÓK ---
 @export var break_velocity : float = 5           # Sebesség, ami felett leszakad
 @export var detach_force : float = 2000         # Lökés nagysága
-@export var pin_joint : PinJoint2D              # Inspectorból assignálható
-@export var groove_joint : GrooveJoint2D        # Inspectorból assignálható
+@export var pin_joint_left : PinJoint2D         # Inspectorból assignálható (bal oldal)
+@export var pin_joint_right : PinJoint2D        # Inspectorból assignálható (jobb oldal)
 @export var rocket_node_path : NodePath         # Rakéta node-ja, impulzus irányához
 
-# --- BELSO VÁLTOZÓK ---
+# --- BELSŐ VÁLTOZÓK ---
 var detached : bool = false
 
 # --- FIZIKA FOLYAMAT ---
@@ -25,17 +25,16 @@ func _physics_process(delta):
 func detach():
 	detached = true
 
-	# PinJoint eltávolítása
-	if pin_joint and pin_joint.is_inside_tree():
-		pin_joint.queue_free()
-		pin_joint = null
+	# PinJoint-ok eltávolítása
+	if pin_joint_left and pin_joint_left.is_inside_tree():
+		pin_joint_left.queue_free()
+		pin_joint_left = null
 
-	# GrooveJoint eltávolítása
-	if groove_joint and groove_joint.is_inside_tree():
-		groove_joint.queue_free()
-		groove_joint = null
+	if pin_joint_right and pin_joint_right.is_inside_tree():
+		pin_joint_right.queue_free()
+		pin_joint_right = null
 
-	# Ütközés kikapcsolása
+	# Ütközés kikapcsolása (hogy ne akadjon be a rakétába)
 	collision_layer = 0
 	collision_mask = 0
 	
@@ -46,7 +45,7 @@ func detach():
 			var direction = (global_position - rocket.global_position).normalized()
 			apply_central_impulse(direction * detach_force)
 
-			# --- Új rész: láb leszakadása → rakéta HP = 0 ---
+			# --- Új rész: ha láb leszakad → rakéta is robban ---
 			if "current_health" in rocket and "destroy_ship" in rocket:
 				rocket.current_health = 0
 				rocket.destroy_ship()

@@ -39,6 +39,7 @@ var is_destroyed: bool = false
 
 
 func _ready() -> void:
+
 	# Kezdeti értékek beállítása a játék indulásakor.
 	current_health = max_health
 	current_fuel = max_fuel

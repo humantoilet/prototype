@@ -1,15 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://c1yaift342c2k"]
 
 [ext_resource type="Script" uid="uid://b06pyviuiq0f8" path="res://rocket.gd" id="1_wltir"]
-[ext_resource type="Script" uid="uid://d2h8qr57sb0l8" path="res://landing_leg.gd" id="2_5gt1y"]
 [ext_resource type="Script" uid="uid://u3ml00h7um2g" path="res://flame.gd" id="2_tpb7v"]
-[ext_resource type="Script" uid="uid://cp0khh1e53ist" path="res://landing_leg_2.gd" id="3_r2l15"]
+[ext_resource type="Script" uid="uid://bpxq4awgx6cm" path="res://landing_leg_2.gd" id="3_r2l15"]
+[ext_resource type="Script" uid="uid://dxdx31e5nlv44" path="res://landing_leg_1.gd" id="4_tpb7v"]
 
 [node name="Rocket" type="RigidBody2D"]
 mass = 150.0
 gravity_scale = 0.025
 center_of_mass_mode = 1
-center_of_mass = Vector2(0, 10)
 script = ExtResource("1_wltir")
 max_main_thrust = 2500.0
 main_thruster_offset = Vector2(0, 10)
@@ -22,7 +21,7 @@ polygon = PackedVector2Array(-5.5, 3, -6, 2.5, -6, 0, -5, 0, -5.5, -2.5, -4, -5,
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2(2, 2)
-polygon = PackedVector2Array(-5.5, 3, -3, 3, -2, 4, 2, 4, 3, 3, 5.5, 3, 6, 2.5, 6, 0, 5, 0, 5.5, -2.5, 4, -5, 1.5, -6, -1.5, -6, -4, -5, -5.5, -2.5, -5, 0, -6, 0, -6, 2.5)
+polygon = PackedVector2Array(-5.5, 3, -3, 3, -2, 4.5, 2, 4.5, 3, 3, 5.5, 3, 6, 2.5, 6, 0, 5, 0, 5.5, -2.5, 4, -5, 1.5, -6, -1.5, -6, -4, -5, -5.5, -2.5, -5, 0, -6, 0, -6, 2.5)
 
 [node name="Flame" type="Polygon2D" parent="."]
 position = Vector2(0, 9)
@@ -40,88 +39,81 @@ polygon = PackedVector2Array(-8, -2, -12, 0, -8, 2)
 position = Vector2(20, 2)
 polygon = PackedVector2Array(-8, -1, -4, 1, -8, 3)
 
-[node name="LandingLeg1" type="RigidBody2D" parent="." node_paths=PackedStringArray("pin_joint", "groove_joint")]
-position = Vector2(11, 5)
+[node name="LandingLeg1" type="RigidBody2D" parent="." node_paths=PackedStringArray("pin_joint_left", "pin_joint_right")]
 mass = 10.0
-gravity_scale = 0.025
+gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 8
-script = ExtResource("2_5gt1y")
-break_velocity = 25.0
-detach_force = 100.0
-pin_joint = NodePath("PinJoint2D")
-groove_joint = NodePath("GrooveJoint2D")
+script = ExtResource("4_tpb7v")
+break_velocity = 40.0
+detach_force = 150.0
+pin_joint_left = NodePath("PinJoint2D")
+pin_joint_right = NodePath("PinJoint2D2")
 rocket_node_path = NodePath("..")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingLeg1"]
-position = Vector2(1, 0)
-scale = Vector2(0.96875, 0.991071)
-polygon = PackedVector2Array(0, 0, -2.06452, 0, 0, 4.03604, 0, 7.06307, 1.03226, 7.06307, 1.03226, 4.03604)
-
 [node name="Polygon2D" type="Polygon2D" parent="LandingLeg1"]
-position = Vector2(4, -1)
+position = Vector2(0, -1)
 color = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(-3, 1, -2, 5, -2, 7, -1, 8, -4, 8, -3, 7, -3, 5, -5, 1)
+polygon = PackedVector2Array(11, 6, 9, 6, 11, 10, 11, 12, 10, 13, 13, 13, 12, 12, 12, 10)
 
-[node name="Polygon2D2" type="Polygon2D" parent="LandingLeg1/Polygon2D"]
-position = Vector2(-4, 1)
+[node name="Polygon2D" type="Polygon2D" parent="LandingLeg1/Polygon2D"]
 color = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(-6, 0, 1, 3, 1, 4, -6, 1)
+polygon = PackedVector2Array(11, 10, 5, 7, 5, 6, 11, 9)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingLeg1"]
+position = Vector2(0, -1)
+polygon = PackedVector2Array(9, 6, 11, 6, 12, 10, 12, 13, 11, 13, 11, 10)
 
 [node name="PinJoint2D" type="PinJoint2D" parent="LandingLeg1"]
 visible = false
+position = Vector2(10, 5)
 node_a = NodePath("../..")
 node_b = NodePath("..")
 softness = 0.1
 
-[node name="GrooveJoint2D" type="GrooveJoint2D" parent="LandingLeg1"]
+[node name="PinJoint2D2" type="PinJoint2D" parent="LandingLeg1"]
 visible = false
-position = Vector2(0, 3)
+position = Vector2(2, 5)
 node_a = NodePath("../..")
 node_b = NodePath("..")
-length = 4.0
-initial_offset = 2.0
+softness = 0.1
 
-[node name="LandingLeg2" type="RigidBody2D" parent="." node_paths=PackedStringArray("pin_joint", "groove_joint")]
-position = Vector2(-10, 5)
+[node name="LandingLeg2" type="RigidBody2D" parent="." node_paths=PackedStringArray("pin_joint_left", "pin_joint_right")]
 mass = 10.0
-gravity_scale = 0.025
+gravity_scale = 0.0
 contact_monitor = true
 max_contacts_reported = 8
 script = ExtResource("3_r2l15")
-break_velocity = 25.0
-detach_force = 100.0
-pin_joint = NodePath("PinJoint2D")
-groove_joint = NodePath("GrooveJoint2D")
+break_velocity = 40.0
+detach_force = 150.0
+pin_joint_left = NodePath("PinJoint2D")
+pin_joint_right = NodePath("PinJoint2D2")
 rocket_node_path = NodePath("..")
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingLeg2"]
-polygon = PackedVector2Array(0, 0, -2, 0, -3, 4, -3, 7, -2, 7, -2, 4)
 
 [node name="Polygon2D" type="Polygon2D" parent="LandingLeg2"]
 color = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(-2, 0, 0, 0, -2, 4, -2, 6, -1, 7, -4, 7, -3, 6, -3, 4)
+polygon = PackedVector2Array(-11, 5, -9, 5, -11, 9, -11, 11, -10, 12, -13, 12, -12, 11, -12, 9)
 
-[node name="Polygon2D3" type="Polygon2D" parent="LandingLeg2/Polygon2D"]
-position = Vector2(-14, 3)
+[node name="Polygon2D" type="Polygon2D" parent="LandingLeg2/Polygon2D"]
 color = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(19, -3, 19, -2, 12, 1, 12, 0)
+polygon = PackedVector2Array(-11, 8, -5, 5, -5, 6, -11, 9)
 
-[node name="GrooveJoint2D" type="GrooveJoint2D" parent="LandingLeg2"]
-visible = false
-position = Vector2(-1, 3)
-node_a = NodePath("../..")
-node_b = NodePath("..")
-length = 4.0
-initial_offset = 2.0
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="LandingLeg2"]
+polygon = PackedVector2Array(-11, 5, -12, 9, -12, 12, -11, 12, -11, 9, -9, 5)
 
 [node name="PinJoint2D" type="PinJoint2D" parent="LandingLeg2"]
 visible = false
-position = Vector2(-1, 0)
+position = Vector2(-10, 5)
 node_a = NodePath("../..")
 node_b = NodePath("..")
 softness = 0.1
-angular_limit_lower = -0.549779
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="LandingLeg2"]
+visible = false
+position = Vector2(-2, 5)
+node_a = NodePath("../..")
+node_b = NodePath("..")
+softness = 0.1
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2(0, 19)
