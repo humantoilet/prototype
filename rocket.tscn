@@ -10,9 +10,11 @@ mass = 150.0
 gravity_scale = 0.025
 center_of_mass_mode = 1
 script = ExtResource("1_wltir")
-max_main_thrust = 2500.0
-main_thruster_offset = Vector2(0, 10)
-side_thruster_offset_y = 25.0
+main_thrust_fuel_consumption = 30.0
+side_thruster_fuel_consumption = 10.0
+max_main_thrust = 15000.0
+thrust_ramp_up_time = 0.5
+side_thruster_force = 1500.0
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 scale = Vector2(2, 2)
@@ -40,13 +42,11 @@ position = Vector2(20, 2)
 polygon = PackedVector2Array(-8, -1, -4, 1, -8, 3)
 
 [node name="LandingLeg1" type="RigidBody2D" parent="." node_paths=PackedStringArray("pin_joint_left", "pin_joint_right")]
-mass = 10.0
-gravity_scale = 0.0
+mass = 15.0
 contact_monitor = true
 max_contacts_reported = 8
 script = ExtResource("4_tpb7v")
-break_velocity = 40.0
-detach_force = 150.0
+break_velocity = 25.0
 pin_joint_left = NodePath("PinJoint2D")
 pin_joint_right = NodePath("PinJoint2D2")
 rocket_node_path = NodePath("..")
@@ -66,25 +66,23 @@ polygon = PackedVector2Array(9, 6, 11, 6, 12, 10, 12, 13, 11, 13, 11, 10)
 
 [node name="PinJoint2D" type="PinJoint2D" parent="LandingLeg1"]
 visible = false
-position = Vector2(10, 5)
+position = Vector2(11, 5)
 node_a = NodePath("../..")
 node_b = NodePath("..")
 softness = 0.1
 
 [node name="PinJoint2D2" type="PinJoint2D" parent="LandingLeg1"]
 visible = false
-position = Vector2(2, 5)
 node_a = NodePath("../..")
 node_b = NodePath("..")
 softness = 0.1
 
 [node name="LandingLeg2" type="RigidBody2D" parent="." node_paths=PackedStringArray("pin_joint_left", "pin_joint_right")]
-mass = 10.0
-gravity_scale = 0.0
+mass = 15.0
 contact_monitor = true
 max_contacts_reported = 8
 script = ExtResource("3_r2l15")
-break_velocity = 40.0
+break_velocity = 25.0
 detach_force = 150.0
 pin_joint_left = NodePath("PinJoint2D")
 pin_joint_right = NodePath("PinJoint2D2")
@@ -103,14 +101,13 @@ polygon = PackedVector2Array(-11, 5, -12, 9, -12, 12, -11, 12, -11, 9, -9, 5)
 
 [node name="PinJoint2D" type="PinJoint2D" parent="LandingLeg2"]
 visible = false
-position = Vector2(-10, 5)
+position = Vector2(-11, 5)
 node_a = NodePath("../..")
 node_b = NodePath("..")
 softness = 0.1
 
 [node name="PinJoint2D2" type="PinJoint2D" parent="LandingLeg2"]
 visible = false
-position = Vector2(-2, 5)
 node_a = NodePath("../..")
 node_b = NodePath("..")
 softness = 0.1

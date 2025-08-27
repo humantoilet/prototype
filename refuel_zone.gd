@@ -1,82 +1,48 @@
-# RefuelZone.gd - Végleges, időzítős, állapotgép alapú verzió
 extends Area2D
+class_name RefuelZone
 
 # --- BEÁLLÍTÁSOK ---
-@export var refuel_rate: float = 25.0
-@export var stationary_speed_threshold: float = 5.0
-@export var wait_time_to_refuel: float = 2.0
+@export_group("Refuel Settings")
+@export var refuel_rate: float = 500.0              # mennyi üzemanyagot ad másodpercenként
+@export var max_refuel_speed: float = 5.0         # rakéta max sebesség a tankoláshoz
+@export var required_stable_time: float = 0.25      # hány másodpercig kell a max_refuel_speed alatt maradnia
 
-# --- CSOMÓPONT HIVATKOZÁSOK ---
-@onready var refuel_timer: Timer = $RefuelTimer
-
-# --- ÁLLAPOTGÉP ---
-enum State { IDLE, WAITING, REFUELING }
-var current_state: State = State.IDLE
-
-# --- BELSŐ VÁLTOZÓ ---
-var rocket_in_zone: RigidBody2D = null
+# --- ÁLLAPOT ---
+var rocket: Rocket = null
+var stable_time_counter: float = 0.0
 
 
-func _ready() -> void:
-	refuel_timer.wait_time = wait_time_to_refuel
-	refuel_timer.one_shot = true
 
+# Ha a rakéta belép a zónába
+func _on_body_entered(body: Node) -> void:
+	if body is Rocket:
+		rocket = body
+		rocket.set_inside_refuel_zone(true)
+		stable_time_counter = 0.0
+		print("Rakéta belépett a refuel zónába.")
 
-# --- JELZÉSKEZELŐ FUNKCIÓK ---
+# Ha a rakéta elhagyja a zónát
+func _on_body_exited(body: Node) -> void:
+	if body == rocket:
+		rocket.set_inside_refuel_zone(false)
+		rocket = null
+		stable_time_counter = 0.0
+		print("Rakéta elhagyta a refuel zónát.")
 
-func _on_body_entered(body):
-	if body.is_in_group("player"):
-		rocket_in_zone = body
-		set_state(State.WAITING)
+# Tankolás logika
+func _process(delta: float) -> void:
+	if rocket and rocket.is_inside_refuel_zone:
+		var speed = rocket.linear_velocity.length()
 
-func _on_body_exited(body):
-	if body == rocket_in_zone:
-		rocket_in_zone = null
-		set_state(State.IDLE)
+		# Ha elég lassú → növeljük a számlálót
+		if speed <= max_refuel_speed:
+			stable_time_counter += delta
 
-func _on_refuel_timer_timeout():
-	if current_state == State.WAITING:
-		set_state(State.REFUELING)
-
-
-# --- KÖZPONTI LOGIKA ---
-
-func set_state(new_state: State):
-	if new_state == current_state: return
-	
-	current_state = new_state
-	
-	match new_state:
-		State.IDLE:
-			refuel_timer.stop()
-		State.WAITING:
-			refuel_timer.start()
-		State.REFUELING:
-			# Töltéskor nincs külön teendő, a fizikai ciklus veszi át.
-			pass
-
-func _physics_process(delta: float):
-	if current_state == State.IDLE:
-		return
-
-	if not is_instance_valid(rocket_in_zone):
-		set_state(State.IDLE)
-		return
-
-	var is_moving_too_fast = rocket_in_zone.linear_velocity.length() > stationary_speed_threshold
-
-	match current_state:
-		State.WAITING:
-			if is_moving_too_fast:
-				# Ha várakozás közben megmozdul, a timer újraindul.
-				refuel_timer.start()
-				
-		State.REFUELING:
-			if is_moving_too_fast:
-				# Ha töltés közben megmozdul, a töltés megszakad,
-				# és újra várakoznia kell.
-				set_state(State.WAITING)
-				return
-
-			# Ha minden rendben, akkor töltsünk.
-			rocket_in_zone.refuel(refuel_rate * delta)
+			# Ha már túl van a szükséges időn, tankol
+			if stable_time_counter >= required_stable_time:
+				rocket.refuel(refuel_rate * delta)
+		else:
+			# Ha gyors, akkor nullázzuk az időzítőt
+			if stable_time_counter > 0:
+				print("Rakéta túl gyors volt, számláló nullázva.")
+			stable_time_counter = 0.0

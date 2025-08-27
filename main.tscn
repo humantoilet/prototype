@@ -11,22 +11,24 @@ position = Vector2(4, -1)
 script = ExtResource("1_lquwl")
 
 [node name="Rocket" parent="." groups=["player"] instance=ExtResource("1_0xm2m")]
-position = Vector2(174, 558)
+position = Vector2(170, 559)
 mass = 100.0
 gravity_scale = 1.0
 contact_monitor = true
 max_contacts_reported = 8
 max_health = 10.0
-crash_speed_threshold = 0.25
-main_thrust_fuel_consumption = 10.0
-side_thruster_fuel_consumption = 2.0
-max_main_thrust = 35000.0
-thrust_ramp_up_time = 0.8
-side_thruster_force = 1000.0
+side_thruster_fuel_consumption = 5.0
+max_main_thrust = 28000.0
+min_main_thrust = 5000.0
+thrust_ramp_up_time = 0.4
+side_thruster_force = 2000.0
+launch_boost_force = 15000.0
+launch_boost_sideways_force = 8000.0
+launch_boost_rotation_impulse_strength = 0.75
+launch_boost_time = 0.75
 
 [node name="Camera2D" type="Camera2D" parent="Rocket"]
 visible = false
-zoom = Vector2(2, 2)
 limit_smoothed = true
 
 [node name="Ground" type="StaticBody2D" parent="." groups=["ground"]]
@@ -36,22 +38,22 @@ script = ExtResource("2_h2yge")
 [node name="Polygon2D" type="Polygon2D" parent="Ground" groups=["ground"]]
 position = Vector2(565, 383)
 color = Color(0, 0, 0, 1)
-polygon = PackedVector2Array(-966, -705, 910, -803, 961, 434, 595, 406, 569, -148, 582, -261, 572, -357, 471, -351, 333, -355, 108, -329, -163, -335, -298, -334, -367, -319, -487, -322, -513, -239, -516, -125, -495, -56, -427, -42, -341, -42, -244, -48, -177, -78, -105, -78, -51, -54, 25, -57, 186, -48, 324, -50, 418, -37, 528, -29, 635, -9, 670, 382, -944, 359)
+polygon = PackedVector2Array(-1183, -1310, 12048, -2122, 12460, 835, 1227, 718, 1273, 90, 1401, -62, 1419, -298, 1430, -298, 1437.61, -298, 1507.39, -298, 1516, -298, 1524, -298, 1535, -280, 1695, -279, 1807, -167, 1866, -49, 1952, -88, 2064, -67, 2129, -199, 2199, -199, 2279, -287, 2332, -322, 2410, -343, 2509, -371, 2592, -338, 2649, -168, 2752, -168, 2823, 152, 2966, 78, 3091, 82, 3236, -112, 3310, -91, 3355, -77, 3583, -37, 3617, -68, 3655, -108, 3745, -99, 3827, 3, 3907, 202, 3991, 200, 3993, 497, 4050, 483, 4102, 532, 4132, 483, 4429, -98, 4383, -252, 4486, -253, 4630, -345, 4799, -659, 5078, -406, 5162, -397, 5236, -400, 5609, -239, 5884, -353, 6127, -556, 6192, -554, 6359, 603, 7069.17, 583.653, 7312, -308, 7563, -316, 8015, 565, 8729, 668, 8884, 56, 9074, 91, 9207, 383, 9473, 630, 9973, 268, 10273, -1051, 10546, -1071, 11112, 199, 11755, 456, 11788, -1418, 5848, -836, 5600, -574, 5455, -729, 5180, -668, 5251, -941, 4792, -876, 4552, -792, 4556, -512, 4276, -655, 4173, -542, 4044, -108, 3828, -362, 3737, -420, 3556, -476, 3324, -372, 2891, -373, 2698, -549, 2610, -499, 2433, -496, 2318, -460, 2205, -414, 2114, -355, 2040, -370, 1858, -686, 1719, -750, 1448, -738, 1249, -705, 1215, -600, 1145, -534, 1038, -587, 920, -676, 799, -594, 701, -505, 582, -486, 372, -406, 303, -407, 237, -434, 134, -441, 84, -450, 29, -443, -10, -420, -47, -438, -88, -411, -119, -447, -214, -432, -299, -487, -363, -470, -396, -436, -432, -471, -506, -452, -526, -353, -513, -239, -516, -125, -495, -56, -427, -42, -341, -42, -244, -48, -185, -49, -170, -110, -103, -110, -90, -57, -52, -26, 25, -57, 186, -48, 243, -74, 256, -137, 342, -137, 357, -82, 418, -37, 573, 7, 615, -40, 627, -113, 697, -113, 710, -42, 757, 36, 780, -122, 817, -224, 842, -322, 870, -334, 896, -322, 910, -284, 898, -242, 909, -137, 948, -122, 1014, -43, 1094, -163, 1179, -163, 1195, -90, 1209, -25, 1254, 1, 1270, 47, 1281, 686, -1116, 725)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ground" groups=["ground"]]
 visible = false
 position = Vector2(565, 383)
-polygon = PackedVector2Array(-966, -705, 910, -803, 961, 434, 595, 406, 569, -148, 582, -261, 572, -357, 471, -351, 333, -355, 108, -329, -163, -335, -298, -334, -367, -319, -487, -322, -513, -239, -516, -125, -495, -56, -427, -42, -341, -42, -244, -48, -177, -78, -105, -78, -51, -54, 25, -57, 186, -48, 324, -50, 418, -37, 528, -29, 635, -9, 670, 382, -944, 359)
+polygon = PackedVector2Array(-1183, -1310, 12048, -2122, 12460, 835, 1227, 718, 1273, 90, 1401, -62, 1419, -298, 1430, -298, 1437.61, -298, 1507.39, -298, 1516, -298, 1524, -298, 1535, -280, 1695, -279, 1807, -167, 1866, -49, 1952, -88, 2064, -67, 2129, -199, 2199, -199, 2279, -287, 2332, -322, 2410, -343, 2509, -371, 2592, -338, 2649, -168, 2752, -168, 2823, 152, 2966, 78, 3091, 82, 3236, -112, 3310, -91, 3355, -77, 3583, -37, 3617, -68, 3655, -108, 3745, -99, 3827, 3, 3907, 202, 3991, 200, 3993, 497, 4050, 483, 4102, 532, 4132, 483, 4429, -98, 4383, -252, 4486, -253, 4630, -345, 4799, -659, 5078, -406, 5162, -397, 5236, -400, 5609, -239, 5884, -353, 6127, -556, 6192, -554, 6359, 603, 7069.17, 583.653, 7312, -308, 7563, -316, 8015, 565, 8729, 668, 8884, 56, 9074, 91, 9207, 383, 9473, 630, 9973, 268, 10273, -1051, 10546, -1071, 11112, 199, 11755, 456, 11788, -1418, 5848, -836, 5600, -574, 5455, -729, 5180, -668, 5251, -941, 4792, -876, 4552, -792, 4556, -512, 4276, -655, 4173, -542, 4044, -108, 3828, -362, 3737, -420, 3556, -476, 3324, -372, 2891, -373, 2698, -549, 2610, -499, 2433, -496, 2318, -460, 2205, -414, 2114, -355, 2040, -370, 1858, -686, 1719, -750, 1448, -738, 1249, -705, 1215, -600, 1145, -534, 1038, -587, 920, -676, 799, -594, 701, -505, 582, -486, 372, -406, 303, -407, 237, -434, 134, -441, 84, -450, 29, -443, -10, -420, -47, -438, -88, -411, -119, -447, -214, -432, -299, -487, -363, -470, -396, -436, -432, -471, -506, -452, -526, -353, -513, -239, -516, -125, -495, -56, -427, -42, -341, -42, -244, -48, -185, -49, -170, -110, -103, -110, -90, -57, -52, -26, 25, -57, 186, -48, 243, -74, 256, -137, 342, -137, 357, -82, 418, -37, 573, 7, 615, -40, 627, -113, 697, -113, 710, -42, 757, 36, 780, -122, 817, -224, 842, -322, 870, -334, 896, -322, 910, -284, 898, -242, 909, -137, 948, -122, 1014, -43, 1094, -163, 1179, -163, 1195, -90, 1209, -25, 1254, 1, 1270, 47, 1281, 686, -1116, 725)
 
 [node name="UILayer" type="CanvasLayer" parent="." node_paths=PackedStringArray("rocket_node")]
 script = ExtResource("3_h2yge")
 rocket_node = NodePath("../Rocket")
 
 [node name="FuelLabel" type="Label" parent="UILayer"]
-offset_left = 5.0
-offset_top = 48.0
-offset_right = 46.0
-offset_bottom = 71.0
+offset_left = 535.0
+offset_top = 613.0
+offset_right = 576.0
+offset_bottom = 636.0
 text = "Fuel: "
 metadata/_edit_use_anchors_ = true
 
@@ -64,13 +66,54 @@ text = "HP: "
 metadata/_edit_use_anchors_ = true
 
 [node name="RefuelZone5" parent="." instance=ExtResource("5_lquwl")]
-position = Vector2(171, 561)
-refuel_rate = 100.0
-stationary_speed_threshold = 5.0
-wait_time_to_refuel = 0.5
+position = Vector2(172, 563)
+refuel_rate = 500.0
 
 [node name="RefuelZone6" parent="." instance=ExtResource("5_lquwl")]
-position = Vector2(420, 525)
-refuel_rate = 200.0
-stationary_speed_threshold = 5.0
-wait_time_to_refuel = 0.5
+position = Vector2(425, 493)
+refuel_rate = 500.0
+
+[node name="RefuelZone7" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(861, 466)
+refuel_rate = 500.0
+
+[node name="RefuelZone8" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(1223, 490)
+refuel_rate = 500.0
+
+[node name="RefuelZone9" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(1695, 442)
+refuel_rate = 500.0
+
+[node name="RefuelZone10" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(2167, 324)
+refuel_rate = 500.0
+
+[node name="RefuelZone11" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(2727, 408)
+refuel_rate = 500.0
+
+[node name="RefuelZone12" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(3261, 435)
+refuel_rate = 500.0
+
+[node name="RefuelZone13" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(3833, 505)
+rotation = 0.261799
+refuel_rate = 500.0
+
+[node name="RefuelZone14" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(4512, 809)
+refuel_rate = 500.0
+
+[node name="RefuelZone15" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(4995, 352)
+refuel_rate = 500.0
+
+[node name="RefuelZone16" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(5762, 204)
+refuel_rate = 500.0
+
+[node name="RefuelZone17" parent="." instance=ExtResource("5_lquwl")]
+position = Vector2(6724, 40)
+refuel_rate = 500.0
